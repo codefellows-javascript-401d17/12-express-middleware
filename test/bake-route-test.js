@@ -8,16 +8,6 @@ require('../server.js');
 describe('Baked Good Routes', function() {
   var bake = null;
 
-  describe('GET: /test', function() {
-    it('should return msg', done => {
-      request.get('localhost:8000/test')
-      .end((err, res) => {
-        expect(res.status).to.equal(200);
-        done();
-      });
-    });
-  });
-
   describe('POST: 400/Bad Request', function() {
     it('should return 400', done => {
       request.post('localhost:8000/api/bake')
