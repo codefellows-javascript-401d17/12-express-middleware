@@ -18,7 +18,6 @@ memberRouter.post('/api/band-member/*', jsonParser, function(req, res, next) {
 memberRouter.get('/api/band-member/:id', function(req, res, next) {
   debug('GET: api/band-member/:id');
 
-  console.log(req);
 
   BandMember.fetchMember(req.params.id)
   .then(member => res.json(member))

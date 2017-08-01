@@ -39,6 +39,17 @@ describe('Band-Member routes', function(){
       });
     });
   });
+  describe('With an invalid id', function() {
+    it('Should respond with 404 coed', (done) => {
+      request.get(`${url}/api/band-member/1234`)
+      .end((err) => {
+        if (err) {
+          expect(err.status).to.equal(404);
+          done();
+        }
+      });
+    });
+  });
 
 });
 
