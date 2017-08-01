@@ -21,7 +21,7 @@ describe('Shoe Routes', function () {
             done();
           })
           .catch((err) => done(err));
-      })
+      });
       after((done) => {
         Shoe.deleteShoe(this.tempShoe.id)
           .then(() => {
@@ -29,15 +29,24 @@ describe('Shoe Routes', function () {
           })
           .catch((err) => {
             done(err);
-          })
-      })
+          });
+      });
       it('should return a shoe', (done) => {
         request.get(`${url}/api/shoe/${this.tempShoe.id}`)
           .end((err, rsp) => {
             expect(rsp.status).to.equal(200);
             done();
+          });
+      });
+    });
+    describe('given an invalid id', function () {
+      it('should return a 404 status code', (done) => {
+        request.get(`${url}/api/shoe/ERT$EF$ERT$YT`)
+          .end((err, rsp) => {
+            expect(rsp.status).to.equal(404);
+            done();
           })
       })
     })
-  })
-})
+  });
+});
