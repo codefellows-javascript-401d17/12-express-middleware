@@ -71,4 +71,32 @@ describe('Shoe Routes', function () {
       })
     })
   })
+  describe('PUT /api/shoe', function () {
+    describe('when provide a valid id and body', function () {
+      before((done) => {
+        Shoe.createShoe(sampleShoe)
+          .then((shoe) => {
+            this.tempShoe = shoe;
+            done();
+          })
+          .catch((err) => {
+            done();
+          })
+      })
+      it('should return a new shoe', (done) => {
+        let updateShoe = { brand: 'new brand', color: 'new color' };
+
+        request.put(`${url}/api/shoe?id=${this.tempShoe.id}`)
+          .send(updateShoe)
+          .end((err, rsp) => {
+            if (err) return done(err);
+            expect(rsp.status).to.equal(200);
+            for (var prop in updateShoe) {
+              expect(rsp.body[prop]).to.equal(updateShoe[prop])
+            }
+            done();
+          })
+      })
+    })
+  })
 });
