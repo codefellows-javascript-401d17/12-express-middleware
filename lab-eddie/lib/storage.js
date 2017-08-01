@@ -49,5 +49,6 @@ storage.fetchAll = function(category) {
   if(!category) Promise.reject(createError(404, 'Expected Category'));
 
   return fs.readdirProm(`${__dirname}/../data/${category}`)
-  .then(dir => dir.map(file => file.split('.json')[0]));
+  .then(dir => dir.map(file => file.split('.json')[0]))
+  .catch(err => Promise.reject(createError(404, 'Model not found')));
 };
