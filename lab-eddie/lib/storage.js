@@ -28,10 +28,10 @@ storage.createItem = function(category, item) {
   if(!category) return Promise.reject(createError(404, 'Expected Category'));
   if(!item) return Promise.reject(createError(404, 'Expected item'));
 
-  json = JSON.stringify(item);
+  let json = JSON.stringify(item);
   return fs.writeFileProm(`${__dirname}/../data/${category}/${item.id}.json`, json)
   .then(() => item)
-  .catch(err => Promise.reject(createError(500, 'Something broke')));
+  .catch(err => Promise.reject(createError(500, err.message)));
 
 };
 
@@ -47,8 +47,9 @@ storage.deleteItem = function(category, id) {
 
 storage.fetchAll = function(category) {
   if(!category) Promise.reject(createError(404, 'Expected Category'));
+  console.log(category)
 
   return fs.readdirProm(`${__dirname}/../data/${category}`)
   .then(dir => dir.map(file => file.split('.json')[0]))
-  .catch(err => Promise.reject(createError(404, 'Model not found')));
+  .catch(err => Promise.reject(createError(404, err.message)));
 };

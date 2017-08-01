@@ -53,5 +53,5 @@ BandMember.updateMember = function(id, _member) {
 
 BandMember.fetchAll = function() {
   debug('fetchAll');
-  return storage.fetchItem('bandMembers');
+  return storage.fetchItem('bandMember');
 };
