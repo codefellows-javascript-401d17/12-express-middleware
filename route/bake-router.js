@@ -8,6 +8,12 @@ const bakeRouter = new Router();
 
 module.exports = bakeRouter;
 
+bakeRouter.get('/test', function(req, res) {
+  debug('TEST');
+
+  res.json({ msg: 'hello'});
+});
+
 bakeRouter.post('/api/bake', jsonParser, function(req, res, next) {
   debug('POST: /api/bake');
 
@@ -24,23 +30,21 @@ bakeRouter.get('/api/bake/:id', function(req, res, next) {
   .catch( err => next(err));
 });
 
-bakeRouter.get('/api/note', function(Req, res, next) {
-  debug('GET: /api/note');
+bakeRouter.get('/api/bake', function(Req, res, next) {
+  debug('GET: /api/bake');
 
-  Note.fetchIDs()
+  Bake.fetchIDs()
   .then( ids => res.json(ids))
   .catch( err => next(err));
 });
 
-bakeRouter.put('/api/note/:id', jsonParser, function(req, res, next) {
-  debug('PUT: /api/note/:id');
+bakeRouter.put('/api/bake/:id', jsonParser, function(req, res, next) {
+  debug('PUT: /api/bake/:id');
 
   Bake.updateBake(req.params.id, req.body)
-  .then( note => res.json(note))
+  .then( bake => res.json(bake))
   .catch( err => next(err));
 });
-
-
 
 bakeRouter.delete('/api/bake', function(req, res, next) {
   debug('DELETE: /api/bake');

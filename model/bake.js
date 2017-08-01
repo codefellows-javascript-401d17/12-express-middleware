@@ -38,7 +38,7 @@ Bake.updateBake = function(id, _bake) {
 
   return storage.fetchItem('bake', id)
   .catch( err => Promise.reject(createError(404, err.message)))
-  .then( bake=> {
+  .then( bake => {
     for (var prop in bake) {
       if (prop === 'id') continue;
       if(_bake[prop]) bake[prop] = _bake[prop];
@@ -55,5 +55,5 @@ Bake.deleteBakedGood = function(id) {
 
 Bake.fetchIDs = function() {
   debug('fetchIds');
-  return storage.availIDs('note');
+  return storage.availIDs('bake');
 };

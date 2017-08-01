@@ -7,8 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "DEBUG='bake*' mocha",
+    "start": "DEBUG='bake*' node server.js"
   },
   "repository": {
     "type": "git",
