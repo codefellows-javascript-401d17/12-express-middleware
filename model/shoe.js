@@ -45,3 +45,14 @@ Shoe.updateShoe = function (id, _shoe) {
       return storage.createItem('shoe', shoe);
     });
 }
+
+Shoe.deleteShoe = function (id) {
+  debug('deleteShoe');
+  debug('id', id);
+  return storage.deleteItem('shoe', id);
+}
+
+Shoe.fetchIDs = function () {
+  debug('fetchIDs');
+  return storage.availIDs('shoe');
+}

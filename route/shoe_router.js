@@ -36,4 +36,12 @@ shoeRouter.put('/api/shoe', jsonParser, function (req, res, next) {
     .catch(err => next(err));
 });
 
+shoeRouter.delete('/api/shoe', function (req, res, next) {
+  debug('DELETE: /api/shoe');
+  debug(req.query);
+  Shoe.deleteShoe(req.query.id)
+    .then((shoe) => res.json(shoe))
+    .catch(err => next(err));
+});
+
 module.exports = shoeRouter;
