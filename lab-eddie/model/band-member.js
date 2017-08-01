@@ -2,7 +2,8 @@
 
 const uuid = require('uuid/v4');
 const storage = require('../lib/storage');
-const debug = require('debug')('app:band-members')
+const createError = require('http-errors');
+const debug = require('debug')('app:band-members');
 
 const BandMember = module.exports = function(first, last, ...instruments) {
   debug('member constructor');
@@ -17,7 +18,7 @@ const BandMember = module.exports = function(first, last, ...instruments) {
 
 BandMember.fetchMember = function(id) {
   debug('fetchMember');
-  storage.fetchItem('bandMember', id);
+  return storage.fetchItem('bandMember', id);
 };
 
 BandMember.createMember = function(...params) {
@@ -26,12 +27,31 @@ BandMember.createMember = function(...params) {
     let member = new BandMember(...params);
     return storage.createItem('bandMember', member);
   } catch(err) {
-    return Promise.reject(err);
+    return Promise.reject(createError(400, err.message));
   }
 };
 
 BandMember.deleteMember = function(id) {
   debug('deleteMember');
 
-  storage.deleteItem('bandMember', id);
+  return storage.deleteItem('bandMember', id);
 }
+
+BandMember.updateMember = function(id, _member) {
+  debug('updateMember');
+
+  return storage.fetchItem('bandMember', id)
+  .catch( err => Promise.reject(createError(404, err.message)))
+  .then( member => {
+    for (var key in member) {
+      if (member === 'id') continue;
+      if (_member[key]) member[key] = _member[key];
+    }
+    return storage.createItem('bandMember', member);
+  });
+};
+
+BandMember.fetchAll = function() {
+  debug('fetchAll');
+  return storage.fetchItem('bandMembers');
+};
