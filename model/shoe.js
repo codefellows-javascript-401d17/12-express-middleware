@@ -5,22 +5,22 @@ const createError = require('http-errors');
 const debug = require('debug')('shoe.js:shoe');
 const storage = require('../lib/storage.js');
 
-const Shoe = module.exports = function (name, content) {
+const Shoe = module.exports = function (brand, color) {
   debug('shoe constructor');
 
-  if (!name) throw new Error('expected name');
-  if (!content) throw new Error('expected content');
+  if (!brand) throw new Error('expected brand');
+  if (!color) throw new Error('expected color');
 
   this.id = uuidv4();
-  this.name = name;
-  this.content = content;
+  this.brand = brand;
+  this.color = color;
 };
 
 Shoe.createShoe = function (_shoe) {
   debug('createShoe');
 
   try {
-    let shoe = new Shoe(_shoe.name, _shoe.content);
+    let shoe = new Shoe(_shoe.brand, _shoe.color);
     return storage.createItem('shoe', shoe);
   } catch (err) {
     return Promise.reject(err);
