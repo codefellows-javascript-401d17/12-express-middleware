@@ -8,8 +8,8 @@ const storage = require('../lib/storage.js');
 const Shoe = module.exports = function (brand, color) {
   debug('shoe constructor');
 
-  if (!brand) throw new Error('expected brand');
-  if (!color) throw new Error('expected color');
+  if (!brand) throw createError(400, 'expected brand');
+  if (!color) throw createError(400, 'expected color');
 
   this.id = uuidv4();
   this.brand = brand;
@@ -44,14 +44,4 @@ Shoe.updateShoe = function (id, _shoe) {
       }
       return storage.createItem('shoe', shoe);
     });
-}
-
-Shoe.deleteShoe = function (id) {
-  debug('deleteShoe');
-  return storage.deleteItem('shoe', id);
-}
-
-Shoe.fetchIDs = function () {
-  debug('fetchIDs');
-  return storage.availIDs('shoe');
 }
