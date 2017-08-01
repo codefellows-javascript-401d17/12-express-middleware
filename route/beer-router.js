@@ -22,21 +22,14 @@ beerRouter.get('/api/beer/:id', function(req, res, next){
   .catch( err => next(err));
 });
 
+
 beerRouter.get('/api/beer', function(req, res, next){
   debug('GET: /api/beer');
-
-  Beer.fetchBeer(req.params.id)
-  .then( beer => res.json(beer))
-  .catch( err => next(err));
-});
-
-beerRouter.getIDs('/api/beer', function(req, res, next)){
-  debug('GETIDS: /api/beer');
 
   Beer.fetchIDs()
   .then( beerIDs => res.json(beerIDs))
   .catch( err => next(err));
-};
+});
 
 beerRouter.put('/api/beer', function(req, res, next){
   debug('PUT: /api/beer');
