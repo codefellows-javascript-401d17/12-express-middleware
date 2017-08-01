@@ -49,4 +49,26 @@ describe('Shoe Routes', function () {
       })
     })
   });
+  describe('POST: /api/shoe', function () {
+    describe('when given a valid body', function () {
+      after(done => {
+        if (this.tempShoe) {
+          Shoe.deleteShoe(this.tempShoe.id)
+            .then(() => done())
+            .catch(err => done(err));
+        }
+      });
+      it('should return a shoe', (done) => {
+        request.post(`${url}/api/shoe`)
+          .send(sampleShoe)
+          .end((err, rsp) => {
+            if (err) return done(err);
+            expect(rsp.status).to.equal(200);
+            this.tempShoe = rsp.body;
+            done();
+          })
+
+      })
+    })
+  })
 });
