@@ -34,7 +34,7 @@ return fs.readFileProm(`${__dirname}/../data/${schemaName}/${id}.json`)
     return Promise.reject(CreateError(500, err.message));
   }
 })
-.catch(err => Promise.reject(CreateError(404, err.message));
+.catch(err => Promise.reject(CreateError(404, err.message)));
 };
 
 exports.deleteItem = function(schemaName, id) {
