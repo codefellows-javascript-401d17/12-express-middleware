@@ -31,11 +31,12 @@ beerRouter.get('/api/beer', function(req, res, next){
   .catch( err => next(err));
 });
 
-beerRouter.put('/api/beer', function(req, res, next){
+
+beerRouter.put('/api/beer', jsonParser, function(req, res, next) {
   debug('PUT: /api/beer');
 
   Beer.updateBeer(req.query.id, req.body)
-  .next( beer => res.json(beer))
+  .then( beer => res.json(beer))
   .catch( err => next(err));
 });
 

@@ -34,17 +34,17 @@ Beer.fetchBeer = function(id) {
 };
 
 Beer.updateBeer = function(id, _beer) {
-  debug('updateBeer');
+  debug('updateNote');
 
   return storage.fetchItem('beer', id)
+  .catch( err => Promise.reject(createError(404, err.message)))
   .then( beer => {
     for (var prop in beer) {
-      if(prop === id) continue;
-      if(_beer[prop]) beer[prop] = _beer[prop];
+      if (prop === 'id') continue;
+      if (_beer[prop]) beer[prop] = _beer[prop];
     }
     return storage.createItem('beer', beer);
-  })
-  .catch( err => Promise.reject(createError(404, err.message)));
+  });
 };
 
 Beer.deleteBeer = function(id){
