@@ -13,9 +13,7 @@ const exampleBakedGood = {
   calories: '350'
 };
 
-describe('Baked Good Routes', function() {
-  var bake = null;
-
+describe('Baked Goods Routes', function() {
   describe('POST: 400/Bad Request', function() {
     it('should return 400', done => {
       request.post(`${url}/api/bake`)
@@ -27,7 +25,15 @@ describe('Baked Good Routes', function() {
   });
 
   describe('POST: /api/bake', function() {
-    it('should make a baked good', function(done) {
+    let tempID;
+
+    after( done => {
+      Bake.deleteBakedGood(tempID)
+      .then( () => done())
+      .catch( err => done(err));
+    });
+
+    it('should make a baked good', done => {
       request.post(`${url}/api/bake`)
       .send({
         bakedGood: 'muffin',
@@ -36,54 +42,37 @@ describe('Baked Good Routes', function() {
       })
       .end((err, res) => {
         if (err) return done(err);
+        tempID = res.body.id;
         expect(res.status).to.equal(200);
         expect(res.body.bakedGood).to.equal('muffin');
         expect(res.body.description).to.equal('naked cupcake');
         expect(res.body.calories).to.equal(255);
-
-        bake = res.body;
         done();
       });
     });
   });
 
-  describe('GET: /api/bake', function() {
-    describe('with a valid id', function() {
-      before( done => {
-        Bake.createBakedGood(exampleBakedGood)
-        .then( bake => {
-          this.tempBake = bake;
-          done();
-        })
-        .catch( err => done(err));
-      });
-
-      after( done => {
-        Bake.deleteBakedGood(this.tempBake.id)
-        .then( () => done())
-        .catch( err => done(err));
-      });
-
-      it('should return a bake', done => {
-        request.get(`${url}/api/bake/${this.tempBake.id}`)
-        .end( (err, res) => {
-          if (err) return done(err);
-          expect(res.status).to.equal(200);
-          done();
-        });
-      });
+  describe('GET: /api/bake with a valid id', function() {
+    before( done => {
+      Bake.createBakedGood(exampleBakedGood)
+      .then( bake => {
+        this.tempBake = bake;
+        done();
+      })
+      .catch( err => done(err));
     });
-  });
 
-  describe('GET: /api/bake', function() {
-    it('should return a baked good', function(done) {
-      request.get(`${url}/api/bake/i${bake.id}`)
-      .end((err, res) => {
+    after( done => {
+      Bake.deleteBakedGood(this.tempBake.id)
+      .then( () => done())
+      .catch( err => done(err));
+    });
+
+    it('should return a baked good', done => {
+      request.get(`${url}/api/bake/${this.tempBake.id}`)
+      .end( (err, res) => {
         if (err) return done(err);
         expect(res.status).to.equal(200);
-        expect(res.body.bakedGood).to.equal('muffin');
-        expect(res.body.description).to.equal('naked cupcake');
-        expect(res.body.calories).to.equal(255);
         done();
       });
     });
@@ -99,19 +88,28 @@ describe('Baked Good Routes', function() {
     });
   });
 
-  // describe('GET: 400/No ID', () => {
-  //   it('should return a 400', done => {
-  //     request.get(`${url}/api/bake`)
-  //     .end((err, res) => {
-  //       expect(res.status).to.equal(400);
-  //       done();
-  //     });
-  //   });
-  // });
-  //
+  describe('GET: 404/Invalid Id', () => {
+    it('should return a 404', done => {
+      request.get(`${url}/api/bake/12345`)
+      .end((err, res) => {
+        expect(res.status).to.equal(404);
+        done();
+      });
+    });
+  });
+
   describe('DELETE: /api/bake', function() {
+    before( done => {
+      Bake.createBakedGood(exampleBakedGood)
+      .then( bake => {
+        this.tempBake = bake;
+        done();
+      })
+      .catch( err => done(err));
+    });
+
     it('should delete a baked good', done => {
-      request.delete(`${url}/api/bake?id=${bake.id}`)
+      request.delete(`${url}/api/bake?id=${this.tempBake.id}`)
       .end((err, res) => {
         if (err) return done(err);
         expect(res.status).to.equal(204);
