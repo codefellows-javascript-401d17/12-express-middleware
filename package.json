@@ -1,0 +1,35 @@
+{
+  "name": "12-express-middleware",
+  "version": "1.0.0",
+  "description": "![cf](https://i.imgur.com/7v5ASc8.png) 12: Express Middleware ======",
+  "main": "server.js",
+  "scripts": {
+    "test": "DEBUG='beer*' mocha",
+    "start": "DEBUG='beer*' node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jamesbillard12/12-express-middleware.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jamesbillard12/12-express-middleware/issues"
+  },
+  "homepage": "https://github.com/Jamesbillard12/12-express-middleware#readme",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.17.2",
+    "debug": "^2.6.8",
+    "express": "^4.15.3",
+    "http-errors": "^1.6.1",
+    "morgan": "^1.8.2",
+    "uuid": "^3.1.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.0",
+    "mocha": "^3.5.0",
+    "superagent": "^3.5.2"
+  }
+}
