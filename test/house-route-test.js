@@ -33,7 +33,7 @@ describe('House Routes', function() {
         .catch(err => done(err));
       });
 
-      if('should return a house', done => {
+      it('should return a house', done => {
         request.get(`${url}/api/house/${this.tempHouse.id}`)
         .end((err, res) => {
           if(err) return done(err);
@@ -97,6 +97,14 @@ describe('House Routes', function() {
         .catch(err => done(err));
       });
 
+      after(done => {
+        if(this.tempHouse) {
+          House.deleteHouse(this.tempHouse.id)
+          .then(() => done())
+          .catch(done);
+        }
+      });
+
       it('should return a note', done => {
         let updateHouse = { name: 'Atreides', seat: 'Arrakeen', region: 'Arrakis', words: 'Fear is the Mind-killer'};
         request.put(`${url}/api/house?id=${this.tempHouse.id}`)
@@ -106,7 +114,7 @@ describe('House Routes', function() {
           expect(res.status).to.equal(200);
           expect(res.body.id).to.equal(this.tempHouse.id);
           for(var prop in updateHouse) {
-            expect(res.body[prop]).to.equal(updateHouse[prop])
+            expect(res.body[prop]).to.equal(updateHouse[prop]);
           }
           done();
         });
