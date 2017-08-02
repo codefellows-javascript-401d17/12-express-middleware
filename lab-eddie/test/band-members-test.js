@@ -54,7 +54,6 @@ describe('Band-Member routes', function(){
   describe('POST: /api/band-member', function() {
     describe('with a valid body', function() {
       after( done => {
-        console.log('Something is not missing', this.tempMember)
         if (this.tempMember) {
           BandMember.deleteMember(this.tempMember.id)
           .then( ()=> done())
@@ -70,14 +69,43 @@ describe('Band-Member routes', function(){
           expect(res.body.first).to.equal('Eddie');
           expect(res.body.last).to.equal('DelRio');
           expect(res.body.instruments).to.deep.equal(['Guitar', 'Bass', 'Drums']);
-          console.log('I came first');
           this.tempMember = res.body;
-          done()
+          done();
         })
       })
     })
-  })
 
+    describe('PUT api/band-member', function(){
+      describe('With valid id and body', function() {
+        before(done => {
+          BandMember.createMember(...testMember)
+          .then(member => {
+            this.tempMember = member;
+            done();
+          })
+          .catch(err => done(err));
+        });
 
+        after(done => {
+          BandMember.deleteMember(this.tempMember.id)
+          .then(() => done())
+          .catch(err => done(err));
+        })
+
+        it('Should return a band-member', done => {
+          request.put(`${url}/api/band-member/${this.tempMember.id}/Edwin/DelRio/Piano`)
+          .end((err, res) => {
+            if(err) return done(err);
+            expect(res.status).to.equal(200);
+            expect(res.body.id).to.equal(this.tempMember.id);
+            expect(res.body.first).to.not.equal(this.tempMember.first);
+            expect(res.body.last).to.equal(this.tempMember.last);
+            expect(res.body.instruments).to.not.deep.equal(this.tempMember.instruments);
+            done()
+          });
+        });
+      });
+    });
+  });
 });
 

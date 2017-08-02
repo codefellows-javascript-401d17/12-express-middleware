@@ -9,7 +9,7 @@ const memberRouter = new Router();
 
 memberRouter.post('/api/band-member/*', jsonParser, function(req, res, next) {
   debug('POST: api/band-member');
-  console.log(req.params[0].split('/'))
+
   BandMember.createMember(...req.params[0].split('/'))
   .then(member => res.json(member))
   .catch(err => next(err));
@@ -32,11 +32,11 @@ memberRouter.get('/api/band-member', function(req, res, next) {
   .catch(err => next(err));
 });
 
-memberRouter.put('/api/band-member/:id/:name/:first/:last:/instruments', jsonParser, function(req, res, next){
+memberRouter.put('/api/band-member/*', jsonParser, function(req, res, next){
   debug('PUT: api/band-member');
 
-  BandMember.updateMember(...req.params)
-  .then(member = res.json(member))
+  BandMember.updateMember(...req.params[0].split('/'))
+  .then(member => res.json(member))
   .catch(err => next(err));
 
 });

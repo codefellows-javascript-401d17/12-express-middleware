@@ -37,14 +37,19 @@ BandMember.deleteMember = function(id) {
   return storage.deleteItem('bandMember', id);
 }
 
-BandMember.updateMember = function(id, _member) {
+BandMember.updateMember = function(..._member) {
   debug('updateMember');
+
+  let id = _member.shift();
+  _member = new BandMember(..._member);
+  _member.id = id;
+
 
   return storage.fetchItem('bandMember', id)
   .catch( err => Promise.reject(createError(404, err.message)))
   .then( member => {
     for (var key in member) {
-      if (member === 'id') continue;
+      if (key === 'id') continue;
       if (_member[key]) member[key] = _member[key];
     }
     return storage.createItem('bandMember', member);
