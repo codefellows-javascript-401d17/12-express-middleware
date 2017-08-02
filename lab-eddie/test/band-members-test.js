@@ -51,5 +51,33 @@ describe('Band-Member routes', function(){
     });
   });
 
+  describe('POST: /api/band-member', function() {
+    describe('with a valid body', function() {
+      after( done => {
+        console.log('Something is not missing', this.tempMember)
+        if (this.tempMember) {
+          BandMember.deleteMember(this.tempMember.id)
+          .then( ()=> done())
+          .catch( err => done(err));
+        }
+      });
+
+      it('Should create a new member', done => {
+        request.post(`${url}/api/band-member/Eddie/DelRio/Guitar/Bass/Drums`)
+        .end((err, res) => {
+          if(err) return done(err);
+          expect(res.status).to.equal(200);
+          expect(res.body.first).to.equal('Eddie');
+          expect(res.body.last).to.equal('DelRio');
+          expect(res.body.instruments).to.deep.equal(['Guitar', 'Bass', 'Drums']);
+          console.log('I came first');
+          this.tempMember = res.body;
+          done()
+        })
+      })
+    })
+  })
+
+
 });
 
