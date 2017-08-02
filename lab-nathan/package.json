@@ -1,0 +1,36 @@
+{
+  "name": "11-express-api",
+  "version": "1.0.0",
+  "description": "![cf](https://i.imgur.com/7v5ASc8.png) 11: Single Resource Express API\r ======",
+  "main": "server.js",
+  "scripts": {
+    "test-win": "SET DEBUG='note*' && mocha",
+    "test": "DEBUG='note*' mocha",
+    "start-win": "SET DEBUG='note*' && node server.js",
+    "start": "DEBUG='note*' node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nharren/11-express-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nharren/11-express-api/issues"
+  },
+  "homepage": "https://github.com/nharren/11-express-api#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "debug": "^2.6.8",
+    "express": "^4.15.3",
+    "http-errors": "^1.6.1",
+    "morgan": "^1.8.2",
+    "uuid": "^3.1.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.0",
+    "mocha": "^3.5.0",
+    "superagent": "^3.5.2"
+  }
+}
