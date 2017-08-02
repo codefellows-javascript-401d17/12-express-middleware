@@ -4,8 +4,8 @@
   "description": "![cf](https://i.imgur.com/7v5ASc8.png) 12: Express Middleware ======",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "DEBUG='beer*' mocha",
+    "start": "DEBUG='beer*' node server.js"
   },
   "repository": {
     "type": "git",

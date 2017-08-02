@@ -5,7 +5,7 @@ const express = require('express');
 const createError = require('http-errors');
 const debug = require('debug')('beer:server');
 
-const beerRouter = require('.route/beer-router.js');
+const beerRouter = require('./route/beer-router.js');
 const cors = require('./lib/cors-middleware.js');
 const errors = require('./lib/error-middleware.js');
 
