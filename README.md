@@ -30,6 +30,6 @@
 * create a `cors-middleware` module that will allow for public use of your API
 * create the `deleteItem` and `availIDs` methods and add them to your `storage` module
   * these methods should be used to delete a resource (`deleteItem`) and return an array of id's from persisted resource filenames (`availIDs`)
-* create the `updateNote`, `fetchNote`, and `fetchIDs` static methods as part of your `Note` model
-* create a series of `note-route-tests` to test your **GET**, **POST**, and **PUT** routes
-  * **hint:** *you'll want to use the `before` and `after` hooks provided by `mocha` in order to create a test note and delete the note after the test has completed*
+* create the `updateCar`, `fetchCar`, and `fetchIDs` static methods as part of your `Car` model
+* create a series of `car-route-tests` to test your **GET**, **POST**, and **PUT** routes
+  * **hint:** *you'll want to use the `before` and `after` hooks provided by `mocha` in order to create a test car and delete the car after the test has completed*
