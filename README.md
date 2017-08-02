@@ -1,35 +1,93 @@
-![cf](https://i.imgur.com/7v5ASc8.png) 12: Express Middleware
-======
+# 12: Express Middleware
 
-## Submission Instructions
-  * fork this repository & create a new branch for your work
-  * write all of your code in a directory named `lab-` + `<your name>` **e.g.** `lab-susan`
-  * push to your repository
-  * submit a pull request to this repository
-  * submit a link to your PR in canvas
-  * write a question and observation on canvas
+## Description:
+This app builds out an API where data is stored in the file system. This API stores beer data with the schema of name, style, and IBU.
 
-## Learning Objectives  
-* students will be able to work with application, router, and 3rd party middleware through the use of express.js
-* students will be able to implement custom middleware through the use of express.js
-* students will be able to create custom routers for a specific resource
+## API:
+The URL endpoint to access the api is `/api/beer`.  Using REST architecture the data is read, written and deleted using `GET`, `POST` and `DELETE` requests.
 
-## Requirements
+### POST:
 
-#### Configuration
-* `package.json`
-* `.eslintrc`
-* `.gitignore`
-* `README.md`
-  * your `README.md` should include detailed instructions on how to use your API
+```
+request.post('localhost:8000/api/beer')
+.send({ name: 'Have a Nice Day IPA', style: 'IPA', IBU: '43' })
+```
 
-#### Feature Tasks
-* create a single resource `express` API that can handle **GET**, **POST**, and **PUT** requests
-* use the `http-errors` module to create new errors and associate them with a proper status code
-* create an `error-middleware` module to handle errors and *use* it in your server file
-* create a `cors-middleware` module that will allow for public use of your API
-* create the `deleteItem` and `availIDs` methods and add them to your `storage` module
-  * these methods should be used to delete a resource (`deleteItem`) and return an array of id's from persisted resource filenames (`availIDs`)
-* create the `updateNote`, `fetchNote`, and `fetchIDs` static methods as part of your `Note` model
-* create a series of `note-route-tests` to test your **GET**, **POST**, and **PUT** routes
-  * **hint:** *you'll want to use the `before` and `after` hooks provided by `mocha` in order to create a test note and delete the note after the test has completed*
+This is a representation of the POST method. You can see that we first make a request to post to
+```
+localhost:8000
+```
+with a route of
+```
+/api/beer
+```
+Once the connection has bee made we send our beer in
+```
+.send({ name: 'Have a Nice Day IPA', style: 'IPA', IBU: '43' })
+```
+format. This will respond with 200 if the request was made or 400 if not.
+
+### GET
+#### With ID
+```
+request.get(`localhost:8000/api/beer?id=${beer.id}`)
+```
+This is a representation of the GET method. You can see that we first make a request to post to
+
+```
+localhost:8000
+```
+with a route of
+
+```
+/api/beer
+```
+
+finally with finish the request with reference to a specific id which was generated with uuid
+
+```
+?id=${beer.id}
+```
+
+This will respond with 200 if the request was made, 404 if not found or 400 if the request was made in wrong format.
+
+#### Without ID
+
+```
+request.get(`localhost:8000/api/beer`)
+```
+This is a representation of the GET method without an ID. This will respond with all the available IDs. You can see that we first make a request to post to
+
+```
+localhost:8000
+```
+with a route of
+
+```
+/api/beer
+```
+
+This will respond with 200 if the request was made, 404 if not found or 400 if the request was made in wrong format.
+
+### DELETE
+
+```
+request.delete(`localhost:8000/api/beer?id=${beer.id}`)
+```
+
+This is a representation of the POST method. You can see that we first make a request to post to
+
+```
+localhost:8000
+```
+with a route of
+
+```
+/api/beer
+```
+finally with finish the request with reference to a specific id which was generated with uuid
+```
+?id=${beer.id}
+```
+
+This will respond with 200 if the request was made, 404 if not found or 400 if the request was made in wrong format.
