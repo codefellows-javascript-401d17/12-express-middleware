@@ -22,11 +22,29 @@ houseRouter.get('/api/house/:id', function(req, res, next) {
   .catch(err => next(err));
 });
 
+houseRouter.get('/api/house', function(req, res, next) {
+  debug('GET: /api/house');
+
+  House.fetchIDs()
+  .then(ids => res.json(ids))
+  .catch(err => next(err));
+});
+
 houseRouter.put('/api/house', jsonParser, function(req, res, next) {
   debug('PUT: /api/house');
 
   House.updateHouse(req.query.id, req.body)
   .then(house => res.json(house))
+  .catch(err => next(err));
+});
+
+houseRouter.delete('/api/house', function(req, res, next) {
+  debug('DELETE: /api/house');
+
+  House.deleteHouse(req.query.id)
+  .then(() => {
+    res.status(204).end();
+  })
   .catch(err => next(err));
 });
 
