@@ -1,4 +1,4 @@
-# Vanilla API Persistence - 09 Lab
+# 12: Express Middleware
 
 ## Description:
 This app builds out an API where data is stored in the file system. This API stores beer data with the schema of name, style, and IBU.
