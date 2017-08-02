@@ -42,5 +42,15 @@ describe('New Routes', function() {
         done();
       });
     });
+
+    describe('with an invalid id', function() {
+      it('should respond with 404 status code', done => {
+        request.get(`${url}/api/beer/123456789`)
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          done();
+        });
+      });
+    });
   });
 });
