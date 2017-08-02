@@ -105,7 +105,7 @@ describe('House Routes', function() {
         }
       });
 
-      it('should return a note', done => {
+      it('should return a house', done => {
         let updateHouse = { name: 'Atreides', seat: 'Arrakeen', region: 'Arrakis', words: 'Fear is the Mind-killer'};
         request.put(`${url}/api/house?id=${this.tempHouse.id}`)
         .send(updateHouse)

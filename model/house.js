@@ -29,12 +29,12 @@ House.createHouse = function(_house) {
   } catch(err) {
     return Promise.reject(err);
   }
-}
+};
 
 House.fetchHouse = function(id) {
   debug('fetchHouse');
   return storage.fetchItem('house', id);
-}
+};
 
 House.updateHouse = function(id, _house) {
   debug('updateHouse');
@@ -48,13 +48,15 @@ House.updateHouse = function(id, _house) {
     }
     return storage.createItem('house', house);
   });
-}
+};
 
 House.deleteHouse = function(id) {
   debug('deleteHouse');
-}
+
+  return storage.deleteItem('house', id);
+};
 
 House.fetchIDs = function() {
   debug('fetchIDs');
   return storage.availIDs('house');
-}
+};
