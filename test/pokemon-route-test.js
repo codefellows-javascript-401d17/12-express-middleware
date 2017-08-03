@@ -9,7 +9,8 @@ require('../server.js');
 
 const examplePokemon = {
   name: 'test name',
-  type: 'test type'
+  type: 'test type',
+  gen: 'test gen'
 };
 
 describe('pokemon routes', function() {
