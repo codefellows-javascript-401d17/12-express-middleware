@@ -8,8 +8,8 @@ const url = 'http://localhost:8000';
 require('../server.js');
 
 const examplePokemon = {
-  name: 'cubone',
-  type: 'ground'
+  name: 'test name',
+  type: 'test type'
 };
 
 describe('pokemon routes', function() {
