@@ -1,57 +1,25 @@
 'use strict';
 
-const request = require('superagent');
 const expect = require('chai').expect;
+const request = require('superagent');
 const Car = require('../model/car.js');
 const url = 'http://localhost:8000';
 
 require('../server.js');
 
 const exampleCar = {
-  make: 'toyota',
-  model: 'camry',
-  year: '2018'
+  name: 'example name',
+  make: 'example make',
+  model: 'example model'
 };
 
 describe('Car Routes', function() {
-  var car = null;
-
-  describe('POST: 400/Bad Request', function() {
-    it('should return 400', done => {
-      request.post(`${url}/api/car`)
-      .end((err, res) => {
-        expect(res.status).to.equal(400);
-        done();
-      });
-    });
-  });
-
-  describe('POST: /api/car', function() {
-    it('should make a car', function(done) {
-      request.post(`${url}/api/car`)
-      .send({
-        make: 'toyota',
-        model: 'camry',
-        year: 2018
-      })
-      .end((err, res) => {
-        if (err) return done(err);
-        expect(res.status).to.equal(200);
-        expect(res.body.make).to.equal('toyota');
-        expect(res.body.model).to.equal('camry');
-        expect(res.body.year).to.equal(2018);
-
-        car = res.body;
-        done();
-      });
-    });
-  });
 
   describe('GET: /api/car', function() {
-    describe('with a valid id', function() {
-      before( done => {
+    describe('with valid id', function() {
+      before(done => {
         Car.createCar(exampleCar)
-        .then( CreateError => {
+        .then(car => {
           this.tempCar = car;
           done();
         })
@@ -66,46 +34,77 @@ describe('Car Routes', function() {
 
       it('should return a car', done => {
         request.get(`${url}/api/car/${this.tempCar.id}`)
-        .end( (err, res) => {
+        .end((err, res) => {
           if (err) return done(err);
           expect(res.status).to.equal(200);
+          expect(res.body.id).to.equal(this.tempCar.id);
+          expect(res.body.name).to.equal(this.tempCar.name);
+          expect(res.body.make).to.equal(this.tempCar.make);
+          expect(res.body.model).to.equal(this.tempCar.model);
           done();
         });
       });
     });
   });
 
-  describe('GET: /api/car', function() {
-    it('should return a car', function(done) {
-      request.get(`${url}/api/car/i${car.id}`)
-      .end((err, res) => {
-        if (err) return done(err);
-        expect(res.status).to.equal(200);
-        expect(res.body.make).to.equal('toyota');
-        expect(res.body.model).to.equal('camry');
-        expect(res.body.year).to.equal(2018);
-        done();
+  describe('POST: /api/car', function() {
+    describe('with valid body', function() {
+      after( done => {
+        if(this.tempCar) {
+          Car.deleteCar(this.tempCar.id)
+          .then( () => done())
+          .catch( err => done(err));
+        }
+      });
+
+      it('should return a car', done => {
+        request.post(`${url}/api/car`)
+        .send(exampleCar)
+        .end((err, res) => {
+          if (err) return done(err);
+          expect(res.status).to.equal(200);
+          expect(res.body.name).to.equal(exampleCar.name);
+          expect(res.body.make).to.equal(exampleCar.make);
+          expect(res.body.model).to.equal(exampleCar.model);
+          this.tempCar = res.body;
+          done();
+        });
       });
     });
   });
 
-  describe('GET: 404', () => {
-    it('should return a 404', done => {
-      request.get(`${url}/api/54321`)
-      .end((err, res) => {
-        expect(res.status).to.equal(404);
-        done();
+  describe('PUT: /api/car', function() {
+    describe('with a valid id and body', function() {
+      before( done => {
+        Car.createCar(exampleCar)
+        .then( car => {
+          this.tempCar = car;
+          done();
+        })
+        .catch( err => done(err));
       });
-    });
-  });
-  describe('DELETE: /api/car', function() {
-    it('should delete a car', done => {
-      request.delete(`${url}/api/car?id=${car.id}`)
-      .end((err, res) => {
-        if (err) return done(err);
-        expect(res.status).to.equal(204);
-        expect(res.body.make).to.equal(undefined);
-        done();
+
+      after( done => {
+        if (this.tempCar) {
+          Car.deleteCar(this.tempCar.id)
+          .then( () => done())
+          .catch(done);
+        }
+      });
+
+      it('should return a note', done => {
+        let updateCar = { name: 'example name', make: 'example make', model: 'example model' };
+        request.put(`${url}/api/car/${this.tempCar.id}`)
+        .send(updateCar)
+        .end((err, res) => {
+          if (err) return done(err);
+          expect(res.status).to.equal(200);
+          expect(res.body.id).to.equal(this.tempCar.id);
+          for (var prop in updateCar) {
+            expect(res.body[prop]).to.equal(updateCar[prop]);
+          }
+          done();
+        });
       });
     });
   });
